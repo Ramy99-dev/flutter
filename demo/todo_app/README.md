@@ -1,16 +1,31 @@
 # todo_app
 
-A new Flutter project.
+A Flutter todo Application consumming api's from NodeJS <br/>
+for authentification i used JWT <br/>
+and Redis as cache database .<br/>
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+To run locally :
+<h3>REREQUISITE</h3>
+- NodeJs installed
+- Docker installed
+- Flutter and Dart installed
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+Server : 
+1. Run redis container :
+```
+Docker run -p 6379:6379 redis
+```
+2. Run NodeJs : 
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+```
+npm start
+```
+Mobile : 
+
+1. Install Flutter dependencies : 
+```
+pub get
+```
+2. Run Flutter Application 

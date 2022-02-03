@@ -7,12 +7,12 @@ and Redis as cache database .<br/>
 
 To run locally :
 <h3>REREQUISITE</h3>
-- NodeJs installed
-- Docker installed
-- Flutter and Dart installed
+- NodeJs installed <br/>
+- Docker installed <br/>
+- Flutter and Dart installed <br/>
+<br/>
 
-
-Server : 
+<strong>Server : </strong>
 1. Run redis container :
 ```
 Docker run -p 6379:6379 redis
@@ -22,7 +22,7 @@ Docker run -p 6379:6379 redis
 ```
 npm start
 ```
-Mobile : 
+<strong>Mobile : </strong>
 
 1. Install Flutter dependencies : 
 ```

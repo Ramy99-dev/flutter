@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/services/user_service.dart';
 import 'package:todo_app/shared/nav.dart';
 import 'package:todo_app/util/colors.dart';
+import 'package:todo_app/util/local_storage.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -13,11 +15,13 @@ class _LoginState extends State<Login> {
   final _mkey = GlobalKey<FormState>();
   bool obscure = true;
   Icon passwordIcon = const Icon(Icons.visibility);
+  TextEditingController _passwordCtrl = TextEditingController();
+  TextEditingController _emailCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: BLUEACCENT,
-      appBar: Nav(),
+      appBar: Nav(context, false),
       body: Form(
         key: _mkey,
         child: Padding(
@@ -27,6 +31,7 @@ class _LoginState extends State<Login> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               TextFormField(
+                controller: _emailCtrl,
                 style: const TextStyle(color: Colors.white),
                 decoration: const InputDecoration(
                   errorStyle: TextStyle(color: Colors.white),
@@ -54,6 +59,7 @@ class _LoginState extends State<Login> {
                 height: 10,
               ),
               TextFormField(
+                controller: _passwordCtrl,
                 style: const TextStyle(color: Colors.white),
                 decoration: InputDecoration(
                   errorStyle: const TextStyle(color: Colors.white),
@@ -88,10 +94,26 @@ class _LoginState extends State<Login> {
                 obscureText: obscure,
               ),
               ElevatedButton(
-                  onPressed: () {
-                    if (_mkey.currentState!.validate()) {}
+                  onPressed: () async {
+                    if (_mkey.currentState!.validate()) {
+                      var data =
+                          await login(_emailCtrl.text, _passwordCtrl.text);
+                      if (data.length > 15) {
+                        await Token.addToken("jwt", data);
+                        Navigator.of(context).popAndPushNamed('home');
+                      }
+                    }
                   },
-                  child: const Text("Login"))
+                  child: const Text("Login")),
+              GestureDetector(
+                child: const Text("Create Account",
+                    style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        color: Colors.white)),
+                onTap: () {
+                  Navigator.popAndPushNamed(context, "register");
+                },
+              )
             ],
           ),
         ),

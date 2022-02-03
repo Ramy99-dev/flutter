@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:todo_app/services/user_service.dart';
 import 'package:todo_app/shared/nav.dart';
 import 'package:todo_app/util/colors.dart';
 
@@ -14,6 +15,7 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   final _mkey = GlobalKey<FormState>();
   TextEditingController passwordCtrl = TextEditingController();
+  TextEditingController emailCtrl = TextEditingController();
   TextEditingController confirmPasswordCtrl = TextEditingController();
   bool obscure = true;
   Icon passwordIcon = const Icon(Icons.visibility);
@@ -21,7 +23,7 @@ class _RegisterState extends State<Register> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: BLUEACCENT,
-      appBar: Nav(),
+      appBar: Nav(context, false),
       body: Form(
         key: _mkey,
         child: Padding(
@@ -34,6 +36,7 @@ class _RegisterState extends State<Register> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   TextFormField(
+                    controller: emailCtrl,
                     style: const TextStyle(color: Colors.white),
                     decoration: const InputDecoration(
                       errorStyle: TextStyle(color: Colors.white),
@@ -145,11 +148,30 @@ class _RegisterState extends State<Register> {
                     },
                     obscureText: obscure,
                   ),
-                  ElevatedButton(
-                      onPressed: () {
-                        if (_mkey.currentState!.validate()) {}
-                      },
-                      child: const Text("Register"))
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                          onPressed: () async {
+                            if (_mkey.currentState!.validate()) {
+                              var data = await createUser(
+                                  emailCtrl.text, passwordCtrl.text);
+                              if (data == "User Added Successfully") {
+                                Navigator.of(context).popAndPushNamed('login');
+                              }
+                            }
+                          },
+                          child: const Text("Register")),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            Navigator.of(context).popAndPushNamed('login');
+                          },
+                          child: Text("Cancel"))
+                    ],
+                  )
                 ],
               ),
             ),
